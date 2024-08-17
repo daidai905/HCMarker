@@ -4,6 +4,11 @@
 
 HCMarker <- function(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers){
 library(Seurat)
+species <<- species
+tissue <<- tissue
+percent <<- percent
+num <<- num
+papers <<- papers
 
   high_confidence(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers)
 
