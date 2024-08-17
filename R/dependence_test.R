@@ -1,11 +1,11 @@
 
 
-#全是基础函数
+
 cosg2 <- function(file = file,file2=file2){
   cosg <- read.table(file,sep = '\t',header = TRUE)
 
 
-  #提取包含names的列名
+
   names_cols <- colnames(cosg)[grep("^names", colnames(cosg))]
 
 
