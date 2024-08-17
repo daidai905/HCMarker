@@ -82,6 +82,8 @@ cosg2 <- function(file = file,file2=file2){
 
 
 score1 <- function(obj=obj,tissue=tissue,article = paper,markertxt =markertxt,filename=filename){
+  library(Seurat)
+  
   score_pre <- data.frame(gene= character(), SubSum= numeric(), AllSum=numeric(), Proportion=numeric(), Species=character(), Tissue=character(), Cell_type=character(), DOI=character())
 
   species <- species
@@ -99,13 +101,14 @@ raw_count <- obj[["RNA"]]@data
 
     raw_count_subgene <- raw_count[rownames(raw_count) %in% marker_gene, ]
 
-    if (nrow(raw_count_subgene) > 0) {
-      raw_count_sum <- as.data.frame(rowSums(raw_count_subgene))
-      colnames(raw_count_sum) <- c("AllSum")
-      raw_count_sum$gene <- rownames(raw_count_sum)
-    } else {
-      raw_count_sum <- data.frame(AllSum = numeric(0), gene = character(0))
-    }
+if (nrow(raw_count_subgene) > 0 && ncol(raw_count_subgene) > 0) {
+    raw_count_sum <- as.data.frame(rowSums(raw_count_subgene))
+    colnames(raw_count_sum) <- c("AllSum")
+    raw_count_sum$gene <- rownames(raw_count_sum)
+} else {
+    raw_count_sum <- data.frame(AllSum = numeric(0), gene = character(0))
+}
+
 
 
 
