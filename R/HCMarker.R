@@ -2,10 +2,10 @@
 
 
 
-HCMarker <- function(files = files,species =species,tissue = tissue,percent = percent,num = num,paper = papers){
+HCMarker <- function(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers){
 library(Seurat)
 
-  high_confidence(files = files,species =species,tissue = tissue,percent = percent,num = num,paper = papers)
+  high_confidence(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers)
 
 sub_dirs <- list.dirs(path = ".", full.names = TRUE, recursive = FALSE)
 sx_files <- c()
