@@ -1,0 +1,55 @@
+
+
+
+
+HCMarker <- function(files = files,species =species,tissue = tissue,percent = percent,num = num,paper = papers){
+library(Seurat)
+
+  high_confidence(files = files,species =species,tissue = tissue,percent = percent,num = num,paper = papers)
+
+sub_dirs <- list.dirs(path = ".", full.names = TRUE, recursive = FALSE)
+sx_files <- c()
+
+
+for (dir in sub_dirs) {
+  sx_files <- c(sx_files, list.files(path = dir, pattern = "*_sx.txt", full.names = TRUE))
+}
+
+
+if (length(sx_files) == 0) {
+  stop("No '_sx.txt' files found in the subdirectories.")
+}
+
+
+if (length(sx_files) >= 2) {
+  jj <- do.call(rbind, lapply(sx_files, function(file) read.table(file, sep = '\t', header = TRUE)))
+} else {
+  jj <- read.table(sx_files[1], sep = '\t', header = TRUE)
+}
+
+print("CellType signature gene set screening is in progress")
+
+
+  jj <<- unique(jj)
+
+
+
+
+
+  zj_matrix <- "zj_matrix.txt"
+  zj(zj_matrix)
+
+
+
+  ct_num <- paste0("celltype.num.txt")
+  cety_num(zj_matrix, ct_num)
+
+
+  high <- paste0("score.txt")
+  high_score(ct_num, high)
+
+
+  dayu_0.5 <- paste0(num,".txt")
+  unique_gene(high, dayu_0.5)
+  file.remove("celltype.num.txt")
+}
