@@ -1,41 +1,38 @@
 
-
-
-
 HCMarker <- function(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers){
-library(Seurat)
 species <<- species
 tissue <<- tissue
 percent <<- percent
 num <<- num
 papers <<- papers
 
+  #######################
   high_confidence(files = files,species =species,tissue = tissue,percent = percent,num = num,papers = papers)
 
+
+
 sub_dirs <- list.dirs(path = ".", full.names = TRUE, recursive = FALSE)
-sx_files <- c()
 
 
-for (dir in sub_dirs) {
-  sx_files <- c(sx_files, list.files(path = dir, pattern = "*_sx.txt", full.names = TRUE))
-}
+if (length(sub_dirs) == 1) {
 
-
-if (length(sx_files) == 0) {
-  stop("No '_sx.txt' files found in the subdirectories.")
-}
-
-
-if (length(sx_files) >= 2) {
+  sx_file <- list.files(path = sub_dirs[1], pattern = "*sx.txt", full.names = TRUE)
+  jj <- read.table(sx_file, sep = '\t', header = TRUE)
+} else if (length(sub_dirs) > 1) {
+  
+  sx_files <- unlist(lapply(sub_dirs, function(dir) list.files(path = dir, pattern = "*sx.txt", full.names = TRUE)))
   jj <- do.call(rbind, lapply(sx_files, function(file) read.table(file, sep = '\t', header = TRUE)))
 } else {
-  jj <- read.table(sx_files[1], sep = '\t', header = TRUE)
+  stop("No subdirectories found.")
 }
 
 print("CellType signature gene set screening is in progress")
 
 
-  jj <<- unique(jj)
+
+
+
+jj <<- unique(jj)
 
 
 
@@ -45,7 +42,7 @@ print("CellType signature gene set screening is in progress")
   zj(zj_matrix)
 
 
-
+  
   ct_num <- paste0("celltype.num.txt")
   cety_num(zj_matrix, ct_num)
 
